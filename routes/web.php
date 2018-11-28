@@ -10,9 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'PostsController@index');
-Route::get('/tasks', 'TasksController@index');
-//Route::get('/tasks/{task}', 'TasksController@show');
+Route::get('/', 'HomeController@index');
+Route::get('/posts', 'PostsController@index');
+Route::get('/posts/create', 'CreatePostController@create');
+Route::get('/posts/{id}', 'PostsController@show');
 //Route::get('/tasks', function () {
 	//$tasks = DB::table('tasks')->get();
 	//$tasks = App\Task::all();
