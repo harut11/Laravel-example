@@ -5,7 +5,7 @@ Create a new post!
 @endsection
 
 @section('content')
-	<form>
+	<form method="post" action="{{ request('create') }}">
 		<div class="form-group">
 			<label for="post_title">Title</label>
 			<input type="text" class="form-control" id="post_titile" name="post_titile" placeholder="Title heare!">

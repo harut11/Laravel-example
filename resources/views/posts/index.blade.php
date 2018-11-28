@@ -12,6 +12,7 @@ Welcome to posts page!
 					<img class="card-img-top" src="/images/{{$post->image}}" alt="">
 					<div class="card-body">
 				  		<h4 class="card-title">{{$post->title}}</h4>
+				  		<p class="">{{ strip_tags(mb_substr($post->body, 0, 70, 'utf-8')) . ' ...' }}</p>
 					</div>
 				</a>
 			</div>

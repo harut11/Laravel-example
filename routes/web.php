@@ -12,7 +12,7 @@
 */
 Route::get('/', 'HomeController@index');
 Route::get('/posts', 'PostsController@index');
-Route::get('/posts/create', 'CreatePostController@create');
+Route::get('/posts/create', 'CreatePostController@show');
 Route::get('/posts/{id}', 'PostsController@show');
 //Route::get('/tasks', function () {
 	//$tasks = DB::table('tasks')->get();

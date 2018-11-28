@@ -11,7 +11,7 @@ class CreatePostController extends Controller
     	$this->middleware('auth');
     }
 
-    public function create()
+    public function show()
     {
     	return view('posts.create');
     }
