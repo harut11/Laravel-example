@@ -63,7 +63,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = \App\Posts::find($id);
+        $post = \App\Posts::findOrFail($id);
         return view('posts.show', compact('post'));
     }
 
@@ -75,7 +75,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = \App\Posts::find($id);
+        $post = \App\Posts::findOrFail($id);
         return view('posts.edit', compact('post'));
     }
 
@@ -94,7 +94,7 @@ class PostController extends Controller
             'post_thumbnail' => 'image|max:2048',
         ]);
 
-        $post = \App\Posts::find($id);
+        $post = \App\Posts::findOrFail($id);
 
         $post->title = $request->get('post_title');
         $post->body = $request->get('post_body');
@@ -115,7 +115,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = \App\Posts::find($id);
+        $post = \App\Posts::findOrFail($id);
         $post->delete();
         return redirect('/posts');
     }
