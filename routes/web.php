@@ -11,9 +11,13 @@
 |
 */
 Route::get('/', 'HomeController@index');
-Route::get('/posts', 'PostsController@index');
-Route::get('/posts/create', 'CreatePostController@show');
-Route::get('/posts/{id}', 'PostsController@show');
+Route::get('/posts', 'PostController@index');
+Route::post('/posts', 'PostController@store');
+Route::get('/posts/create', 'PostController@create');
+Route::get('/posts/{id}', 'PostController@show');
+Route::get('/posts/edit/{id}', 'PostController@edit');
+Route::post('/posts/update{id}', 'PostController@update');
+Route::get('/posts/destroy/{id}', 'PostController@destroy');
 //Route::get('/tasks', function () {
 	//$tasks = DB::table('tasks')->get();
 	//$tasks = App\Task::all();
