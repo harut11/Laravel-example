@@ -13,6 +13,15 @@ Create a new post!
 			<div class="invalid-feedback">{{ $errors->first('post_title') }}</div>
 		</div>
 		<div class="form-group">
+			<label for="post_category">Category</label>
+			<select class="form-control {{ $errors->has('post_category') ? 'is-invalid' : '' }}" id="post_category" name="post_category">
+				@foreach(\App\PostCategories::get()->pluck('title', 'id') as $id => $title)
+				<option value="{{ $id }}">{{ $title }}</option>
+				@endforeach
+			</select>
+			<div class="invalid-feedback">{{ $errors->first('post_category') }}</div>
+		</div>
+		<div class="form-group">
 			<label for="post_thumbnail">Thumbnail</label>
 			<input type="file" class="form-control {{ $errors->has('post_thumbnail') ? 'is-invalid' : '' }}" id="post_thumbnail" name="post_thumbnail">
 			<div class="invalid-feedback">{{ $errors->first('post_thumbnail') }}</div>

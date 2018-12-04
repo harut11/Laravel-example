@@ -41,11 +41,14 @@ class PostController extends Controller
             'post_title' => 'required|string|max:200|min:3',
             'post_body' => 'required|string|max:200|min:3',
             'post_thumbnail' => 'image|max:2048',
+            'categor_id' => 'required|in:' . PostCategories::get()->implode('id', ','),
         ]);
         $model = new Posts();
 
         $model->title = $request->get('post_title');
         $model->body = $request->get('post_body');
+        $model->owner_id = \Auth::user()->id;
+        $model->category_id = $request->get('category_id');
         $file = $request->file('post_thumbnail');
         $filename = str_random() . '.' . $file->getClientOriginalExtension();
         $file->move(public_path('uploads'), $filename);
@@ -99,9 +102,16 @@ class PostController extends Controller
         $post->title = $request->get('post_title');
         $post->body = $request->get('post_body');
         $file = $request->file('post_thumbnail');
-        $filename = str_random() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('uploads'), $filename);
-        $post->image = $filename;
+        if ($file) {
+            $filename = str_random() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('uploads'), $filename);
+            $old_file_path = public_path('uploads') . '/' . $post->image;
+            if (\File::exists($old_file_path)) {
+                \File::delete($old_file_path);
+            }
+            $post->image = $filename;
+        }
+        
         $post->save();
 
         return redirect('/posts');

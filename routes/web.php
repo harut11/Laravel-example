@@ -16,7 +16,7 @@ Route::post('/posts', 'PostController@store');
 Route::get('/posts/create', 'PostController@create');
 Route::get('/posts/{id}', 'PostController@show');
 Route::get('/posts/edit/{id}', 'PostController@edit');
-Route::post('/posts/update{id}', 'PostController@update');
+Route::post('/posts/update/{id}', 'PostController@update');
 Route::get('/posts/destroy/{id}', 'PostController@destroy');
 //Route::get('/tasks', function () {
 	//$tasks = DB::table('tasks')->get();

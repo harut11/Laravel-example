@@ -5,7 +5,7 @@ Edit Post!
 @endsection
 
 @section('content')
-	<form method="post" action="/posts/update{{ $post->id }}" enctype="multipart/form-data">
+	<form method="post" action="/posts/update/{{ $post->id }}" enctype="multipart/form-data">
 		@csrf
 		<div class="form-group">
 			<label for="post_title">Title</label>
