@@ -17,6 +17,13 @@
 	        <ul class="navbar-nav ml-auto">
 	            <!-- Authentication Links -->
 	            	<li class="nav-item">
+	            		@if (app()->getLocale() === 'hy')
+	            			<a class="nav-link" href="/change-language/en">Eng</a>
+	            		@else
+	            			<a class="nav-link" href="/change-language/hy">Arm</a>
+	            		@endif
+	            	</li>
+	            	<li class="nav-item">
 	                    <a class="nav-link" href="{{ '/posts' }}">Posts</a>
 	                </li>
 	            @guest

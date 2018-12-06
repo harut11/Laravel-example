@@ -5,6 +5,7 @@ Create a new post!
 @endsection
 
 @section('content')
+	<h3>@lang('content.create_new_post')</h3>
 	<form method="post" action="/posts" enctype="multipart/form-data">
 		@csrf
 		<div class="form-group">

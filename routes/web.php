@@ -13,11 +13,13 @@
 Route::get('/', 'HomeController@index');
 Route::get('/posts', 'PostController@index');
 Route::post('/posts', 'PostController@store');
-Route::get('/posts/create', 'PostController@create');
+Route::get('/posts/create', 'PostController@create')->middleware('lang');
 Route::get('/posts/{id}', 'PostController@show');
 Route::get('/posts/edit/{id}', 'PostController@edit');
 Route::post('/posts/update/{id}', 'PostController@update');
 Route::get('/posts/destroy/{id}', 'PostController@destroy');
+
+Route::get('change-language/{code}', 'PostController@changeLanguage');
 //Route::get('/tasks', function () {
 	//$tasks = DB::table('tasks')->get();
 	//$tasks = App\Task::all();

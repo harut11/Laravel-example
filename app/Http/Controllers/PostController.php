@@ -129,4 +129,10 @@ class PostController extends Controller
         $post->delete();
         return redirect('/posts');
     }
+
+    public function changeLanguage($code)
+    {
+        session()->put('lang', $code);
+        return redirect()->back();
+    }
 }
