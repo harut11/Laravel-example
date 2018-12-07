@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Posts;
+use App\PostCategories;
 
 class PostController extends Controller
 {
@@ -14,8 +15,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = \App\Posts::get();
-        return view('posts.index', compact('posts'));
+        $posts = Posts::get();
+        $posts = Posts::paginate(5);
+        $categories = PostCategories::get();
+        return view('posts.index', compact('posts', 'categories'));
     }
 
     /**
@@ -55,7 +58,7 @@ class PostController extends Controller
         $model->image = $filename;
         $model->save();
 
-        return redirect('/posts'); 
+        return redirect()->route('posts.index'); 
     }
 
     /**
@@ -114,7 +117,7 @@ class PostController extends Controller
         
         $post->save();
 
-        return redirect('/posts');
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -127,7 +130,7 @@ class PostController extends Controller
     {
         $post = \App\Posts::findOrFail($id);
         $post->delete();
-        return redirect('/posts');
+        return redirect()->route('posts.index');
     }
 
     public function changeLanguage($code)

@@ -5,8 +5,9 @@ Edit Post!
 @endsection
 
 @section('content')
-	<form method="post" action="/posts/update/{{ $post->id }}" enctype="multipart/form-data">
+	<form method="post" action="{{ route('posts.update', $post->id) }}" enctype="multipart/form-data">
 		@csrf
+		@method('put')
 		<div class="form-group">
 			<label for="post_title">Title</label>
 			<input type="text" class="form-control {{ $errors->has('post_title') ? 'is-invalid' : '' }}" id="post_title2" name="post_title" placeholder="Title heare!" value="{{ $post->title }}">

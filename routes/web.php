@@ -10,29 +10,19 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', 'HomeController@index');
-Route::get('/posts', 'PostController@index');
-Route::post('/posts', 'PostController@store');
-Route::get('/posts/create', 'PostController@create')->middleware('lang');
-Route::get('/posts/{id}', 'PostController@show');
-Route::get('/posts/edit/{id}', 'PostController@edit');
-Route::post('/posts/update/{id}', 'PostController@update');
-Route::get('/posts/destroy/{id}', 'PostController@destroy');
+Route::group(['middleware' => 'lang'], function() {
+	Route::group(['prefix' => 'posts'], function() {
+		Route::get('/', 'PostController@index')->name('posts.index');
+		Route::post('/', 'PostController@store')->middleware('auth')->name('posts.store');
+		Route::get('create', 'PostController@create')->middleware('auth')->name('posts.create');
+		Route::get('{id}', 'PostController@show')->name('posts.show');
+		Route::get('{id}/edit', 'PostController@edit')->name('posts.edit');
+		Route::put('{id}', 'PostController@update')->name('posts.update');
+		Route::delete('{id}', 'PostController@destroy')->name('posts.delete');
+});
+	Auth::routes();
 
-Route::get('change-language/{code}', 'PostController@changeLanguage');
-//Route::get('/tasks', function () {
-	//$tasks = DB::table('tasks')->get();
-	//$tasks = App\Task::all();
-//	$tasks = App\Task::incomplete();
-//    return view('tasks.index', compact('tasks'));
-//});
+});
 
-//Route::get('/tasks/{task}', function ($id) {
-	//$task = DB::table('tasks')->find($id);
-//	$task = App\Task::find($id);
-//    return view('tasks.show', compact('task'));
-//});
+Route::get('change-language/{code}', 'PostController@changeLanguage')->name('change-language');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');

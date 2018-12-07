@@ -18,9 +18,9 @@
 	            <!-- Authentication Links -->
 	            	<li class="nav-item">
 	            		@if (app()->getLocale() === 'hy')
-	            			<a class="nav-link" href="/change-language/en">Eng</a>
+	            			<a class="nav-link" href="{{ route('change-language', 'en') }}">Eng</a>
 	            		@else
-	            			<a class="nav-link" href="/change-language/hy">Arm</a>
+	            			<a class="nav-link" href="{{ route('change-language', 'hy') }}">Arm</a>
 	            		@endif
 	            	</li>
 	            	<li class="nav-item">
