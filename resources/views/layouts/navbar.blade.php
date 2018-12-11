@@ -9,9 +9,12 @@
 
 	    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 	        <!-- Left Side Of Navbar -->
-	        <ul class="navbar-nav mr-auto">
-
-	        </ul>
+	        <ul class="navbar-nav">
+            </ul>
+            <form class="form-inline" action="{{ route('posts.index') }}" method="get">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" value="{{ request()->get('search') }}">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
 
 	        <!-- Right Side Of Navbar -->
 	        <ul class="navbar-nav ml-auto">
@@ -23,9 +26,6 @@
 	            			<a class="nav-link" href="{{ route('change-language', 'hy') }}">Arm</a>
 	            		@endif
 	            	</li>
-	            	<li class="nav-item">
-	                    <a class="nav-link" href="{{ '/posts' }}">Posts</a>
-	                </li>
 	            @guest
 	                <li class="nav-item">
 	                    <a class="nav-link" href="{{ route('login') }}">{{ __('Login') }}</a>
@@ -37,7 +37,12 @@
 	                </li>
 	            @else
 	            	<li class="nav-item">
-	                    <a class="nav-link" href="/posts/create">Create Post</a>
+	                    <a class="nav-link" href="{{ route('posts.create') }}">Create Post</a>
+	                </li>
+	                <li class="nav-item">
+	                    <a class="nav-link" href="{{ route('posts.index', 'mine') }}">Posts
+	                    	<div class="badge badge-info">{{ Auth::user()->posts->count() }}</div>
+	                    </a>
 	                </li>
 	                <li class="nav-item dropdown">
 	                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -45,6 +50,9 @@
 	                    </a>
 
 	                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+	                    	<a href="{{ route('user.profile') }}" class="dropdown-item">
+	                    		Profile
+	                    	</a>
 	                        <a class="dropdown-item" href="{{ route('logout') }}"
 	                           onclick="event.preventDefault();
 	                                         document.getElementById('logout-form').submit();">

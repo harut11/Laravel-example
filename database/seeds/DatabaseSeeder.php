@@ -13,6 +13,7 @@ class DatabaseSeeder extends Seeder
     {
         \Schema::disableForeignKeyConstraints();
         \DB::table('users')->truncate();
+        \DB::table('user_details')->truncate();
         \DB::table('post_categories')->truncate();
     	\DB::table('posts')->truncate();
         $this->call(UsersTableSeeder::class);

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use Illuminate\Http\Request;
 use App\Posts;
 use App\PostCategories;
@@ -13,10 +14,24 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($owner = null)
     {
-        $posts = Posts::get();
-        $posts = Posts::paginate(5);
+        if ($owner && Auth::check()) {
+            $query = Auth::user()->posts();
+        } else {
+            $query = Posts::query();
+        }
+        if (request()->has('category_id')) {
+            $query = $query->where('category_id', '=', request()->get('category_id'));
+        }
+        if (request()->has('search')) {
+            $query = $query->where(function($query) {
+                $s = '%' . request()->get('search') . '%';
+                $query->where('title', 'like', $s)
+                    ->orWhere('body', 'like', $s);
+            });
+        }
+        $posts = $query->with('owner')->paginate(10);
         $categories = PostCategories::get();
         return view('posts.index', compact('posts', 'categories'));
     }
@@ -57,8 +72,7 @@ class PostController extends Controller
         $file->move(public_path('uploads'), $filename);
         $model->image = $filename;
         $model->save();
-
-        return redirect()->route('posts.index'); 
+        return redirect()->route('posts.index', 'mine');
     }
 
     /**
@@ -81,7 +95,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = \App\Posts::findOrFail($id);
+        $post = $this->findOwnerPost($id);
         return view('posts.edit', compact('post'));
     }
 
@@ -100,7 +114,7 @@ class PostController extends Controller
             'post_thumbnail' => 'image|max:2048',
         ]);
 
-        $post = \App\Posts::findOrFail($id);
+        $post = $this->findOwnerPost($id);
 
         $post->title = $request->get('post_title');
         $post->body = $request->get('post_body');
@@ -128,7 +142,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        $post = \App\Posts::findOrFail($id);
+        $post = $this->findOwnerPost($id);
         $post->delete();
         return redirect()->route('posts.index');
     }
@@ -137,5 +151,14 @@ class PostController extends Controller
     {
         session()->put('lang', $code);
         return redirect()->back();
+    }
+
+    private function findOwnerPost($id)
+    {
+        $post = \App\Posts::findOrFail($id);
+        if ($post->owner_id !== Auth::id()) {
+            abort(403);
+        }
+        return $post;
     }
 }

@@ -6,7 +6,7 @@ Create a new post!
 
 @section('content')
 	<h3>@lang('content.create_new_post')</h3>
-	<form method="post" action="{{ route('posts.create') }}" enctype="multipart/form-data">
+	<form method="post" action="{{ route('posts.store') }}" enctype="multipart/form-data">
 		@csrf
 		<div class="form-group">
 			<label for="post_title">Title</label>

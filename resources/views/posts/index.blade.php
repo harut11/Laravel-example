@@ -8,7 +8,15 @@ Welcome to posts page!
 	<div class="categories2">
 		<ul class="list-unstyled">
 			@foreach ($categories as $category)
-				<li><a href="">{{ $category->title }}</a></li>
+				<li>
+					<a href="{{ route('posts.index', [
+					'owner' => request()->route('owner'),
+					 'category_id' => $category->id,
+					  'search' => request()->get('search')
+					  ]) }}">
+					{{ $category->title }}
+					</a>
+				</li>
 			@endforeach
 		</ul>
 	</div>

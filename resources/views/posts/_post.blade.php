@@ -4,9 +4,10 @@
 		<div class="card-body">
 	  		<h4 class="card-title">{{$post->title}}</h4>
 	  		<p class="">{{ str_limit($post->body, 70) }}</p>
+	  		<p>{{ $post->owner->name }}</p>
 		</div>
 	</a>
-	@auth
+	@if (Auth::check() && $post->owner_id === Auth::id())
 	<div class="clearfix">
 		<a href="{{ route('posts.edit', $post->id) }}" class="btn btn-warning" style="float: left;">Edit</a>
 		<form method="post" action="{{ route('posts.delete', $post->id) }}">
@@ -15,5 +16,5 @@
 			<input type="submit" value="Delete" class="btn btn-danger" style="float: right;">
 		</form>
 	</div>
-	@endauth
+	@endif
 </div>
