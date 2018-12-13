@@ -10,9 +10,9 @@ Welcome to posts page!
 			@foreach ($categories as $category)
 				<li>
 					<a href="{{ route('posts.index', [
-					'owner' => request()->route('owner'),
-					 'category_id' => $category->id,
-					  'search' => request()->get('search')
+						'category_slug' => $category->slug,
+						'owner' => request()->route('owner', 'all'),
+					  	'search' => request()->get('search')
 					  ]) }}">
 					{{ $category->title }}
 					</a>

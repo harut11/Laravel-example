@@ -1,5 +1,5 @@
 <div class="card" style="width: 18rem; float: left;">
-	<a href="{{ route('posts.show', $post->id) }}">
+	<a href="{{ route('posts.show', $post->slug) }}">
 		<img class="card-img-top img-fluid" src="{{ asset('/uploads/' . $post->image) }}" alt="">
 		<div class="card-body">
 	  		<h4 class="card-title">{{$post->title}}</h4>

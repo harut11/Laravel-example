@@ -21,6 +21,10 @@ class CreateUserDetailsTable extends Migration
             $table->date('date_of_birth')->nullable();
             $table->char('nationality', 2)->nullable();
             $table->timestamps();
+
+            $table->foreign('id')->references('id')->on('users')
+                ->onUpdate('cascade')
+                ->onDelete('cascade');
         });
     }
 

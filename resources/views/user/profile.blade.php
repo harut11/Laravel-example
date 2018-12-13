@@ -6,12 +6,12 @@
 	@method('put')
 	<div class="form-group">
 		<label for="details_first_name">First Name</label>
-		<input type="text" class="form-control {{ $errors->has('details_first_name') ? 'is-invalid' : '' }}" name="details_first_name">
+		<input type="text" class="form-control {{ $errors->has('details_first_name') ? 'is-invalid' : '' }}" name="details_first_name" value="{{ $model->details->first_name }}">
 		<div class="invalid-feedback">{{ $errors->first('first_name') }}</div>
 	</div>
 	<div class="form-group">
 		<label for="details_last_name">First Name</label>
-		<input type="text" class="form-control {{ $errors->has('details_last_name') ? 'is-invalid' : '' }}" name="details_last_name">
+		<input type="text" class="form-control {{ $errors->has('details_last_name') ? 'is-invalid' : '' }}" name="details_last_name" value="{{ $model->details->last_name }}">
 		<div class="invalid-feedback">{{ $errors->first('last_name') }}</div>
 	</div>
 	<div class="form-group">

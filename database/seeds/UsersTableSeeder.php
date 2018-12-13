@@ -17,6 +17,7 @@ class UsersTableSeeder extends Seeder
         	'name' => 'admin',
         	'email' => 'admin@example.com',
         	'password' => bcrypt('secret'),
+            'is_admin' => 1,
         ]);
         factory(User::class, 10)->create()->each(function($user) {
             $details = factory(UserDetails::class)->make();

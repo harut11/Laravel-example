@@ -14,15 +14,17 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($owner = null)
+    public function index($owner = 'all', $category_slug = null)
     {
-        if ($owner && Auth::check()) {
+        if ($owner === 'mine' && Auth::check()) {
             $query = Auth::user()->posts();
         } else {
             $query = Posts::query();
         }
-        if (request()->has('category_id')) {
-            $query = $query->where('category_id', '=', request()->get('category_id'));
+        if ($category_slug) {
+            $query = $query->select(['posts.*'])
+                ->leftJoin('post_categories', 'post_categories.id', 'posts.category_id')
+                ->where('post_categories.slug', '=', $category_slug);
         }
         if (request()->has('search')) {
             $query = $query->where(function($query) {
@@ -67,10 +69,7 @@ class PostController extends Controller
         $model->body = $request->get('post_body');
         $model->owner_id = \Auth::user()->id;
         $model->category_id = $request->get('category_id');
-        $file = $request->file('post_thumbnail');
-        $filename = str_random() . '.' . $file->getClientOriginalExtension();
-        $file->move(public_path('uploads'), $filename);
-        $model->image = $filename;
+        $model->thumbnail = $request->file('thumbnail');
         $model->save();
         return redirect()->route('posts.index', 'mine');
     }
@@ -78,12 +77,12 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        $post = \App\Posts::findOrFail($id);
+        $post = Posts::where('slug', '=', $slug)->firstOrFail();
         return view('posts.show', compact('post'));
     }
 
@@ -118,16 +117,7 @@ class PostController extends Controller
 
         $post->title = $request->get('post_title');
         $post->body = $request->get('post_body');
-        $file = $request->file('post_thumbnail');
-        if ($file) {
-            $filename = str_random() . '.' . $file->getClientOriginalExtension();
-            $file->move(public_path('uploads'), $filename);
-            $old_file_path = public_path('uploads') . '/' . $post->image;
-            if (\File::exists($old_file_path)) {
-                \File::delete($old_file_path);
-            }
-            $post->image = $filename;
-        }
+        $post->thumbnail = $request->file('thumbnail');
         
         $post->save();
 
